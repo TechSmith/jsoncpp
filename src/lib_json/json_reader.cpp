@@ -14,6 +14,7 @@
 #include <cassert>
 #include <cstring>
 #include <istream>
+#include <sstream>
 
 #if defined(_MSC_VER) && _MSC_VER < 1500 // VC++ 8.0 and below
 #define snprintf _snprintf
@@ -589,16 +590,22 @@ bool Reader::decodeDouble(Token& token, Value& decoded) {
   // info:
   //
   //     http://developer.apple.com/library/mac/#DOCUMENTATION/DeveloperTools/gcc-4.0.1/gcc/Incompatibilities.html
-  char format[] = "%lf";
+  // char format[] = "%lf";
 
   if (length <= bufferSize) {
     Char buffer[bufferSize + 1];
     memcpy(buffer, token.start_, length);
     buffer[length] = 0;
-    count = sscanf(buffer, format, &value);
+     std::istringstream is(buffer);
+     is.imbue(std::locale::classic());
+     is >> value;
+     count = (is.good() || is.eof());
   } else {
     std::string buffer(token.start_, token.end_);
-    count = sscanf(buffer.c_str(), format, &value);
+     std::istringstream is(buffer);
+     is.imbue(std::locale::classic());
+     is >> value;
+     count = (is.good() || is.eof());
   }
 
   if (count != 1)
