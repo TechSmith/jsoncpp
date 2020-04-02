@@ -15,7 +15,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <boost/shared_ptr.hpp>
 
 #if defined(_MSC_VER) && _MSC_VER < 1500 // VC++ 8.0 and below
 #include <float.h>
@@ -1018,14 +1017,14 @@ StreamWriter* OldCompressingStreamWriterBuilder::newStreamWriter(
 
 std::string writeString(Value const& root, StreamWriter::Factory const& builder) {
   std::ostringstream sout;
-  boost::shared_ptr<StreamWriter> const sw(builder.newStreamWriter(&sout));
+  std::unique_ptr<StreamWriter> const sw(builder.newStreamWriter(&sout));
   sw->write(root);
   return sout.str();
 }
 
 std::ostream& operator<<(std::ostream& sout, Value const& root) {
   StreamWriterBuilder builder;
-  boost::shared_ptr<StreamWriter> writer(builder.newStreamWriter(&sout));
+  std::unique_ptr<StreamWriter> writer(builder.newStreamWriter(&sout));
   writer->write(root);
   return sout;
 }
