@@ -718,7 +718,7 @@ bool Value::asBool() const {
   case uintValue:
     return value_.uint_ ? true : false;
   case realValue:
-    return value_.real_ ? true : false;
+    return static_cast<bool>(value_.real_) ? true : false;
   default:
     break;
   }
