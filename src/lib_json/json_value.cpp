@@ -151,7 +151,7 @@ void Value::CommentInfo::setComment(const char* text, size_t len) {
       text[0] == '\0' || text[0] == '/',
       "in Json::Value::setComment(): Comments must start with /");
   // It seems that /**/ style comments are acceptable as well.
-  comment_ = duplicateStringValue(text, len);
+  comment_ = duplicateStringValue(text, static_cast<unsigned int>(len));
 }
 
 // //////////////////////////////////////////////////////////////////
@@ -1049,8 +1049,8 @@ bool Value::removeIndex(ArrayIndex index, Value* removed) {
   ArrayIndex oldSize = size();
   // shift left all items left, into the place of the "removed"
   for (ArrayIndex i = index; i < (oldSize - 1); ++i){
-    CZString key(i);
-    (*value_.map_)[key] = (*this)[i + 1];
+    CZString indexKey(i);
+    (*value_.map_)[indexKey] = (*this)[i + 1];
   }
   // erase the last one ("leftover")
   CZString keyLast(oldSize - 1);
