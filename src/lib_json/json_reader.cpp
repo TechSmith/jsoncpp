@@ -601,6 +601,7 @@ bool Reader::decodeDouble(Token& token, Value& decoded) {
   double value = 0;
   String buffer(token.start_, token.end_);
   IStringStream is(buffer);
+  is.imbue( std::locale::classic() );
   if (!(is >> value)) {
     if (value == std::numeric_limits<double>::max())
       value = std::numeric_limits<double>::infinity();
