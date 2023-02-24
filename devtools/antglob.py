@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Baptiste Lepilleur, 2009
+# Copyright 2009 Baptiste Lepilleur and The JsonCpp Authors
+# Distributed under MIT license, or public domain if desired and
+# recognized in your jurisdiction.
+# See file LICENSE for detail or copy at http://jsoncpp.sourceforge.net/LICENSE
 
 from __future__ import print_function
 from dircache import listdir
@@ -143,7 +146,7 @@ def glob(dir_path,
                     entry_type = is_file and FILE_LINK or DIR_LINK
                 else:
                     entry_type = is_file and FILE or DIR
-##                print '=> type: %d' % entry_type, 
+##                print '=> type: %d' % entry_type,
                 if (entry_type & entry_type_filter) != 0:
 ##                    print ' => KEEP'
                     yield os.path.join(dir_path, entry)
