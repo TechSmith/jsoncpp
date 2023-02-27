@@ -603,9 +603,9 @@ bool Reader::decodeDouble(Token& token, Value& decoded) {
   IStringStream is(buffer);
   is.imbue( std::locale::classic() );
   if (!(is >> value)) {
-    if (value == std::numeric_limits<double>::max())
+    if (buffer.length() > 0 && buffer[0] != '-')
       value = std::numeric_limits<double>::infinity();
-    else if (value == std::numeric_limits<double>::lowest())
+    else if (buffer.length() > 0 && buffer[0] == '-')
       value = -std::numeric_limits<double>::infinity();
     else if (!std::isinf(value))
       return addError(
